@@ -1,0 +1,267 @@
+/* Student Cards Styling */
+.student-card {
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #dddbda;
+    border-radius: 0.5rem;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.student-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    border-color: #1589ee;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+    cursor: pointer;
+}
+
+.student-card:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Add a subtle "click to view" indicator */
+.student-card::after {
+    content: 'Click to view details';
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.7rem;
+    color: #1589ee;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.student-card:hover::after {
+    opacity: 1;
+}
+
+/* List View Styling */
+.student-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    position: relative;
+}
+
+.student-row:hover {
+    background-color: #f3f2f2;
+    cursor: pointer;
+}
+
+.student-row:active {
+    background-color: #eef1f6;
+}
+
+/* Add a subtle "click to view" indicator for list rows */
+.student-row:hover td:last-child::after {
+    content: 'Click to view';
+    position: absolute;
+    right: 1rem;
+    font-size: 0.7rem;
+    color: #1589ee;
+    font-weight: 500;
+}
+
+/* Table styling improvements */
+.slds-table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.slds-table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #1589ee;
+    font-weight: 600;
+    color: #16325c;
+}
+
+.slds-table td {
+    border-bottom: 1px solid #f3f2f2;
+    vertical-align: middle;
+}
+
+/* Pagination Styling */
+.pagination-container {
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid #dddbda;
+}
+
+.pagination-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.page-selector {
+    min-width: 120px;
+}
+
+.pagination-info {
+    font-size: 0.875rem;
+    color: #706e6b;
+    text-align: center;
+}
+
+/* Modal Styling */
+.modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Search Input Styling */
+.search-input {
+    margin-bottom: 1rem;
+}
+
+/* Badge Styling */
+.slds-badge_lightest {
+    background-color: #eef1f6;
+    color: #1589ee;
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Click Indicator */
+.click-indicator {
+    color: #1589ee;
+    transition: transform 0.2s ease-in-out;
+}
+
+.student-card:hover .click-indicator,
+.student-row:hover .click-indicator {
+    transform: translateX(2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .student-card {
+        margin-bottom: 1rem;
+    }
+    
+    .slds-grid.slds-wrap {
+        margin: 0;
+    }
+    
+    .slds-col.slds-size_1-of-1.slds-medium-size_1-of-2.slds-large-size_1-of-3 {
+        padding: 0.25rem;
+    }
+}
+
+/* Table Styling */
+.slds-table {
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.slds-table th {
+    background-color: #f3f2f2;
+    font-weight: 600;
+}
+
+.slds-table td {
+    vertical-align: middle;
+}
+
+/* Button Group Styling */
+.slds-button-group {
+    display: flex;
+    align-items: center;
+}
+
+.slds-button-group .slds-button {
+    border-radius: 0;
+}
+
+.slds-button-group .slds-button:first-child {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.slds-button-group .slds-button:last-child {
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+/* Empty State Styling */
+.slds-text-align_center {
+    padding: 2rem 1rem;
+}
+
+.slds-text-align_center lightning-icon {
+    color: #706e6b;
+}
+
+/* Loading State */
+.slds-spinner {
+    margin: 2rem auto;
+}
+
+/* Error State */
+.slds-notify_alert {
+    margin: 1rem 0;
+    border-radius: 0.25rem;
+}
+
+/* Hover Effects for Interactive Elements */
+.slds-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slds-input:hover,
+.slds-combobox:hover {
+    border-color: #1589ee;
+}
+
+/* Focus States */
+.slds-input:focus,
+.slds-combobox:focus {
+    border-color: #1589ee;
+    box-shadow: 0 0 0 1px #1589ee;
+}
+
+/* Animation for Card Loading */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.student-card {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+/* Status Badge Colors */
+.slds-badge[title="Active"] {
+    background-color: #4bca81;
+    color: white;
+}
+
+.slds-badge[title="Inactive"] {
+    background-color: #706e6b;
+    color: white;
+}
+
+.slds-badge[title="Graduated"] {
+    background-color: #1589ee;
+    color: white;
+}

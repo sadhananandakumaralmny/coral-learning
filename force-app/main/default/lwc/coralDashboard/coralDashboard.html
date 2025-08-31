@@ -1,0 +1,221 @@
+<template>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h1 class="main-title">Learning Management System</h1>
+                <p class="subtitle">Empowering organizations through comprehensive learning solutions</p>
+            </div>
+            <div class="header-actions">
+                <lightning-button 
+                    label="Quick Actions" 
+                    variant="brand" 
+                    icon-name="utility:add"
+                    onclick={handleNavigation}
+                    data-tab="Course_Enrollments_Tab">
+                </lightning-button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <lightning-icon icon-name="standard:user" size="large"></lightning-icon>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{dashboardStats.totalStudents}</h3>
+                    <p class="stat-label">Total Students</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <lightning-icon icon-name="standard:knowledge" size="large"></lightning-icon>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{dashboardStats.totalCourses}</h3>
+                    <p class="stat-label">Active Courses</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <lightning-icon icon-name="standard:list" size="large"></lightning-icon>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{dashboardStats.totalEnrollments}</h3>
+                    <p class="stat-label">Total Enrollments</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <lightning-icon icon-name="standard:account" size="large"></lightning-icon>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{dashboardStats.totalClients}</h3>
+                    <p class="stat-label">Corporate Clients</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Recent Enrollments -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <lightning-icon icon-name="utility:clock" size="small" class="header-icon"></lightning-icon>
+                        Recent Enrollments
+                    </h2>
+                    <lightning-button 
+                        label="View All" 
+                        variant="neutral" 
+                        size="small"
+                        onclick={handleNavigation}
+                        data-tab="Course_Enrollments_Tab">
+                    </lightning-button>
+                </div>
+                
+                <div class="card-content">
+                    <template if:true={hasRecentEnrollments}>
+                        <div class="enrollment-list">
+                            <template for:each={recentEnrollments} for:item="enrollment">
+                                <div key={enrollment.Id} class="enrollment-item">
+                                    <div class="enrollment-info">
+                                        <div class="student-name">
+                                            <template if:true={enrollment.Student__c}>
+                                                <a href="#" 
+                                                   class="student-link" 
+                                                   onclick={handleStudentClick} 
+                                                   data-student-id={enrollment.Student__c}>
+                                                    {enrollment.fullName}
+                                                </a>
+                                            </template>
+                                            <template if:false={enrollment.Student__c}>
+                                                {enrollment.fullName}
+                                            </template>
+                                        </div>
+                                        <div class="course-name">
+                                            <template if:true={enrollment.Course__c}>
+                                                <a href="#" 
+                                                   class="course-link" 
+                                                   onclick={handleCourseClick} 
+                                                   data-course-id={enrollment.Course__c}>
+                                                    {enrollment.Course__r.Name}
+                                                </a>
+                                            </template>
+                                            <template if:false={enrollment.Course__c}>
+                                                Unknown Course
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="enrollment-date">
+                                        {enrollment.formattedDate}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hasRecentEnrollments}>
+                        <div class="empty-state">
+                            <lightning-icon icon-name="utility:list" size="medium"></lightning-icon>
+                            <p>No recent enrollments</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Top Courses -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <lightning-icon icon-name="utility:star" size="small" class="header-icon"></lightning-icon>
+                        Top Performing Courses
+                    </h2>
+                    <lightning-button 
+                        label="View All" 
+                        variant="neutral" 
+                        size="small"
+                        onclick={handleNavigation}
+                        data-tab="Learning_Courses_Tab">
+                    </lightning-button>
+                </div>
+                
+                <div class="card-content">
+                    <template if:true={hasTopCourses}>
+                        <div class="course-list">
+                            <template for:each={topCourses} for:item="course">
+                                <div key={course.Id} class="course-item">
+                                    <div class="course-info">
+                                        <div class="course-name">
+                                            <a href="#" 
+                                               class="course-link" 
+                                               onclick={handleCourseClick} 
+                                               data-course-id={course.Id}>
+                                                {course.Name}
+                                            </a>
+                                        </div>
+                                        <div class="course-stats">
+                                            <span class="enrollment-count">
+                                                {course.enrollmentCount} enrollments
+                                            </span>
+                                            <span class="course-rating">
+                                                ⭐ {course.rating}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hasTopCourses}>
+                        <div class="empty-state">
+                            <lightning-icon icon-name="utility:star" size="medium"></lightning-icon>
+                            <p>No courses available</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Navigation Cards -->
+        <div class="navigation-section">
+            <h2 class="section-title">Quick Navigation</h2>
+            <div class="nav-grid">
+                <div class="nav-card" onclick={handleNavigation} data-tab="Students_Tab">
+                    <div class="nav-icon">
+                        <lightning-icon icon-name="standard:user" size="large"></lightning-icon>
+                    </div>
+                    <h3>Manage Students</h3>
+                    <p>View and manage student records</p>
+                </div>
+                
+                <div class="nav-card" onclick={handleNavigation} data-tab="Learning_Courses_Tab">
+                    <div class="nav-icon">
+                        <lightning-icon icon-name="standard:knowledge" size="large"></lightning-icon>
+                    </div>
+                    <h3>Learning Courses</h3>
+                    <p>Browse and manage courses</p>
+                </div>
+                
+                <div class="nav-card" onclick={handleNavigation} data-tab="Corporate_Clients_Tab">
+                    <div class="nav-icon">
+                        <lightning-icon icon-name="standard:account" size="large"></lightning-icon>
+                    </div>
+                    <h3>Corporate Clients</h3>
+                    <p>Manage client relationships</p>
+                </div>
+                
+                <div class="nav-card" onclick={handleNavigation} data-tab="Course_Enrollments_Tab">
+                    <div class="nav-icon">
+                        <lightning-icon icon-name="standard:list" size="large"></lightning-icon>
+                    </div>
+                    <h3>Course Enrollments</h3>
+                    <p>Track student enrollments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

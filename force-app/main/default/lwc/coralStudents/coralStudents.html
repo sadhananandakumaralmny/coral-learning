@@ -1,0 +1,293 @@
+<template>
+    <lightning-card title="Students - Learning Management System" icon-name="standard:user">
+        <div class="slds-p-around_medium">
+            <!-- Header with Search and New Student Button -->
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input 
+                        type="search" 
+                        label="Search Students" 
+                        placeholder="Search by name, email, or client..."
+                        value={searchTerm}
+                        onchange={handleSearchChange}
+                        class="search-input">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                    <lightning-button 
+                        label="New Student" 
+                        variant="brand" 
+                        icon-name="utility:add"
+                        onclick={handleNewStudent}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Search Results Info -->
+            <template if:true={searchResultsInfo}>
+                <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+                    {searchResultsInfo}
+                </div>
+            </template>
+
+            <!-- Loading State -->
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center slds-p-vertical_large">
+                    <lightning-spinner alternative-text="Loading students..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Students List -->
+            <template if:false={isLoading}>
+                <template if:true={hasStudents}>
+
+
+                    <div class="slds-table_header">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Student Name">Student Name</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Email">Email</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Client">Client</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Department">Department</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Status">Status</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Actions">Actions</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={paginatedStudents} for:item="student">
+                                    <tr key={student.Id} class="slds-hint-parent student-row" onclick={handleStudentClick} data-id={student.Id}>
+                                        <td>
+                                            <div class="slds-truncate" title={student.fullName}>
+                                                <strong>{student.fullName}</strong>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={student.Email__c}>
+                                                {student.Email__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={student.clientName}>
+                                                {student.clientName}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={student.Department__c}>
+                                                {student.Department__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={student.Status__c}>
+                                                <span class="slds-badge slds-badge_lightest">{student.Status__c}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <lightning-button-icon 
+                                                icon-name="utility:chevronright" 
+                                                variant="bare" 
+                                                size="small"
+                                                onclick={handleStudentClick}
+                                                data-id={student.Id}>
+                                            </lightning-button-icon>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <template if:true={filteredStudents.length}>
+                        <div class="pagination-container">
+                            <div class="pagination-controls">
+                                <div class="pagination-buttons">
+                                    <lightning-button 
+                                        variant="neutral"
+                                        label="Previous"
+                                        icon-name="utility:chevronleft"
+                                        onclick={handlePreviousPage}
+                                        disabled={isPreviousDisabled}>
+                                    </lightning-button>
+                                    
+                                    <lightning-combobox
+                                        name="pageSelect"
+                                        value={currentPage}
+                                        options={pageOptions}
+                                        onchange={handlePageChange}
+                                        class="page-selector">
+                                    </lightning-combobox>
+                                    
+                                    <lightning-button 
+                                        variant="neutral"
+                                        label="Next"
+                                        icon-name="utility:chevronright"
+                                        icon-position="right"
+                                        onclick={handleNextPage}
+                                        disabled={isNextDisabled}>
+                                    </lightning-button>
+                                </div>
+                                
+                                <div class="pagination-info">
+                                    {pageInfo}
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <!-- Empty State -->
+                <template if:false={hasStudents}>
+                    <div class="slds-text-align_center slds-p-vertical_large">
+                        <lightning-icon icon-name="standard:user" size="large" class="slds-m-bottom_medium"></lightning-icon>
+                        <h3 class="slds-text-heading_medium slds-m-bottom_small">
+                            <template if:true={searchTerm}>
+                                No students found matching "{searchTerm}"
+                            </template>
+                            <template if:false={searchTerm}>
+                                No Students Yet
+                            </template>
+                        </h3>
+                        <p class="slds-text-body_regular slds-m-bottom_medium">
+                            <template if:true={searchTerm}>
+                                Try adjusting your search terms or create a new student.
+                            </template>
+                            <template if:false={searchTerm}>
+                                Create your first student to get started.
+                            </template>
+                        </p>
+                        <lightning-button 
+                            label="Create Student" 
+                            variant="brand" 
+                            onclick={handleNewStudent}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Error Display -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>Error loading students: {error.message}</h2>
+                </div>
+            </template>
+        </div>
+
+        <!-- New Student Modal -->
+        <template if:true={showNewStudentModal}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Create New Student</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close" onclick={handleCloseModal}>
+                            <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-content">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    label="First Name" 
+                                    name="First_Name__c"
+                                    value={newStudent.First_Name__c}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    label="Last Name" 
+                                    name="Last_Name__c"
+                                    value={newStudent.Last_Name__c}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    type="email" 
+                                    label="Email" 
+                                    name="Email__c"
+                                    value={newStudent.Email__c}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    type="tel" 
+                                    label="Phone" 
+                                    name="Phone__c"
+                                    value={newStudent.Phone__c}
+                                    onchange={handleInputChange}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Corporate Client" 
+                                    name="Corporate_Client__c"
+                                    value={newStudent.Corporate_Client__c}
+                                    options={clients}
+                                    onchange={handleInputChange}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    label="Department" 
+                                    name="Department__c"
+                                    value={newStudent.Department__c}
+                                    onchange={handleInputChange}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    label="Job Title" 
+                                    name="Job_Title__c"
+                                    value={newStudent.Job_Title__c}
+                                    onchange={handleInputChange}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Status" 
+                                    name="Status__c"
+                                    value={newStudent.Status__c}
+                                    options={statusOptions}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button 
+                            label="Cancel" 
+                            onclick={handleCloseModal}
+                            class="slds-m-right_x-small">
+                        </lightning-button>
+                        <lightning-button 
+                            label="Save Student" 
+                            variant="brand" 
+                            onclick={handleSaveStudent}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

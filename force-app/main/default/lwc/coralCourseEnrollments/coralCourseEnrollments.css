@@ -1,0 +1,373 @@
+.search-input {
+    margin-bottom: 0;
+}
+
+.enrollment-card {
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #dddbda;
+    border-radius: 0.5rem;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.enrollment-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    border-color: #1589ee;
+    cursor: pointer;
+}
+
+.enrollment-card:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Add a subtle "click to view" indicator */
+.enrollment-card::after {
+    content: 'Click to view details';
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.7rem;
+    color: #1589ee;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+.enrollment-card:hover::after {
+    opacity: 1;
+}
+
+/* Card content styling */
+.enrollment-card h3 {
+    color: #16325c;
+    font-weight: 600;
+    margin: 0;
+}
+
+.enrollment-card .slds-text-color_weak {
+    color: #706e6b;
+}
+
+.enrollment-card .slds-card {
+    border: none;
+    box-shadow: none;
+}
+
+.enrollment-card .slds-card__body {
+    padding: 0;
+}
+
+.modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-content .slds-grid {
+    margin: 0;
+}
+
+.modal-content .slds-col {
+    padding: 0.5rem;
+}
+
+.modal-content lightning-combobox,
+.modal-content lightning-input {
+    width: 100%;
+}
+
+.slds-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.slds-text-body_small {
+    font-size: 0.875rem;
+    line-height: 1.25;
+}
+
+.slds-truncate {
+    max-width: 200px;
+}
+
+.slds-progress-bar {
+    background-color: #f3f2f2;
+    border-radius: 0.25rem;
+    height: 0.5rem;
+}
+
+/* Progress Summary Cards */
+.progress-summary-card {
+    background: #ffffff;
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+}
+
+.progress-summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: #1589ee;
+}
+
+.progress-summary-card .summary-icon {
+    margin-bottom: 0.5rem;
+}
+
+.progress-summary-card .summary-icon lightning-icon {
+    --sds-c-icon-color-foreground-default: #1589ee;
+}
+
+.progress-summary-card .summary-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #16325c;
+    margin-bottom: 0.25rem;
+}
+
+.progress-summary-card .summary-label {
+    font-size: 0.875rem;
+    color: #706e6b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Progress Indicator in Table */
+.enrollment-row td .progress-indicator {
+    padding: 0.5rem;
+    margin: 0;
+    box-shadow: none;
+    border: 1px solid #e5e5e5;
+}
+
+.enrollment-row td .progress-indicator .progress-bar {
+    height: 8px;
+    margin-bottom: 0.25rem;
+}
+
+.enrollment-row td .progress-indicator .progress-text {
+    margin-bottom: 0.25rem;
+}
+
+.enrollment-row td .progress-indicator .percentage {
+    font-size: 0.875rem;
+}
+
+.enrollment-row td .progress-indicator .status-badge {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.5rem;
+}
+
+.enrollment-row td .progress-indicator .progress-details {
+    display: none;
+}
+
+.slds-progress-bar__value {
+    background-color: #1589ee;
+    border-radius: 0.25rem;
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.slds-progress-bar__value-text {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .slds-grid.slds-grid_align-spread {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .slds-col.slds-size_1-of-2 {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .enrollment-card .slds-col {
+        width: 100%;
+    }
+}
+
+/* Pagination styling */
+.pagination-container {
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid #dddbda;
+}
+
+.pagination-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.page-selector {
+    min-width: 120px;
+}
+
+.pagination-info {
+    font-size: 0.875rem;
+    color: #706e6b;
+    text-align: center;
+}
+
+/* Add a subtle border to separate sections */
+.enrollment-card .slds-grid:not(:last-child) {
+    border-bottom: 1px solid #f3f2f2;
+    padding-bottom: 0.5rem;
+}
+
+.enrollment-card .slds-grid:first-child {
+    border-bottom: 2px solid #1589ee;
+    padding-bottom: 0.75rem;
+}
+
+/* Improve spacing and layout */
+.enrollment-card .slds-p-around_small {
+    padding: 1rem;
+}
+
+.enrollment-card .slds-m-bottom_x-small {
+    margin-bottom: 0.75rem;
+}
+
+.enrollment-card .slds-m-top_small {
+    margin-top: 1rem;
+}
+
+/* Add a subtle gradient background on hover */
+.enrollment-card:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1589ee, #5cb3ff);
+}
+
+/* Improve text readability */
+.enrollment-card .slds-text-body_small {
+    color: #706e6b;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+/* Make the enrollment ID more prominent */
+.enrollment-card .slds-grid:last-child .slds-text-body_small {
+    color: #1589ee;
+    font-weight: 500;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* List View Styling */
+.enrollment-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    position: relative;
+}
+
+.enrollment-row:hover {
+    background-color: #f3f2f2;
+    cursor: pointer;
+}
+
+.enrollment-row:active {
+    background-color: #eef1f6;
+}
+
+/* Add a subtle "click to view" indicator for list rows */
+.enrollment-row:hover td:last-child::after {
+    content: 'Click to view';
+    position: absolute;
+    right: 1rem;
+    font-size: 0.7rem;
+    color: #1589ee;
+    font-weight: 500;
+}
+
+/* Table styling improvements */
+.slds-table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.slds-table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #1589ee;
+    font-weight: 600;
+    color: #16325c;
+}
+
+.slds-table td {
+    border-bottom: 1px solid #f3f2f2;
+    vertical-align: middle;
+}
+
+/* Badge styling for enrollment ID in list view */
+.slds-badge_lightest {
+    background-color: #eef1f6;
+    color: #1589ee;
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Click indicator styling */
+.click-indicator {
+    color: #706e6b;
+    transition: all 0.2s ease-in-out;
+}
+
+.enrollment-card:hover .click-indicator {
+    color: #1589ee;
+    transform: translateX(2px);
+}
+
+/* Improve overall card appearance */
+.enrollment-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.enrollment-card:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+}
+
+/* Student Link Styling */
+.student-link {
+    color: #0176d3;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.student-link:hover {
+    color: #014486;
+    text-decoration: underline;
+}
+
+.student-link:focus {
+    outline: 2px solid #0176d3;
+    outline-offset: 2px;
+}

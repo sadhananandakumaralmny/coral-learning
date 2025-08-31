@@ -1,0 +1,193 @@
+.client-card {
+    background: white;
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.client-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    border-color: #0176d3;
+}
+
+.client-card.clickable {
+    cursor: pointer;
+}
+
+.client-card.clickable:hover {
+    background-color: #f8f9fa;
+}
+
+.client-title {
+    color: #16325c;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+.client-description {
+    color: #706e6b;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+}
+
+.client-meta {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.client-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+}
+
+.client-size {
+    color: #706e6b;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.client-revenue {
+    color: #706e6b;
+    font-size: 0.875rem;
+}
+
+/* Search styling */
+.search-input {
+    max-width: 400px;
+}
+
+/* Pagination styling */
+.pagination-container {
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid #dddbda;
+}
+
+.pagination-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.page-selector {
+    min-width: 120px;
+}
+
+.pagination-info {
+    font-size: 0.875rem;
+    color: #706e6b;
+    text-align: center;
+}
+
+/* Modal styling */
+.modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-content .slds-grid {
+    margin: 0;
+}
+
+.modal-content .slds-col {
+    padding: 0.5rem;
+}
+
+.modal-content lightning-combobox,
+.modal-content lightning-input {
+    width: 100%;
+}
+
+/* Status badge colors */
+.client-badge:contains("Active") {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.client-badge:contains("Prospect") {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.client-badge:contains("Inactive") {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.client-badge:contains("Churned") {
+    background-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Industry badge colors */
+.client-badge:contains("Technology") {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.client-badge:contains("Healthcare") {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.client-badge:contains("Finance") {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.client-badge:contains("Manufacturing") {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+.client-badge:contains("Retail") {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.client-badge:contains("Education") {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.client-badge:contains("Consulting") {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+.client-badge:contains("Real Estate") {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Pagination styling */
+.pagination-container {
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid #dddbda;
+}
+
+.page-selector {
+    min-width: 120px;
+}
+
+.slds-button-group {
+    margin: 0 0.5rem;
+}
+
+.slds-button-group lightning-button {
+    margin: 0 0.25rem;
+}

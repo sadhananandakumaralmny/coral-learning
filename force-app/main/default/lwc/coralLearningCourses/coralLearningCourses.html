@@ -1,0 +1,218 @@
+<template>
+    <lightning-card title="Learning Courses - Learning Management System" icon-name="standard:knowledge">
+        <div class="slds-p-around_medium">
+            <!-- Header with Search and New Course Button -->
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input 
+                        type="search"
+                        label="Search Courses"
+                        placeholder="Search by name, description, level, or status..."
+                        value={searchTerm}
+                        onchange={handleSearchChange}
+                        class="search-input">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                    <lightning-button 
+                        label="New Course" 
+                        variant="brand" 
+                        icon-name="utility:add"
+                        onclick={handleNewCourse}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Search Results Info -->
+            <template if:true={searchTerm}>
+                <div class="slds-m-bottom_medium">
+                    <div class="slds-text-body_small slds-text-color_weak">
+                        Search results for "{searchTerm}" - {filteredCourses.length} courses found
+                    </div>
+                </div>
+            </template>
+
+            <!-- Courses List -->
+            <template if:true={filteredCourses.length}>
+                <div class="slds-grid slds-wrap">
+                    <template for:each={paginatedCourses} for:item="course">
+                        <div key={course.Id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_x-small">
+                            <div class="course-card clickable" data-course-id={course.Id} onclick={handleCourseClick}>
+                                <div class="slds-p-around_small">
+                                    <h3 class="slds-text-heading_small slds-m-bottom_x-small course-title">
+                                        {course.displayName}
+                                    </h3>
+                                    <p class="slds-text-body_small slds-m-bottom_x-small course-description">
+                                        {course.courseDescription}
+                                    </p>
+                                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small course-meta">
+                                        <span class="slds-badge slds-badge_lightest course-badge">
+                                            {course.Course_Status__c}
+                                        </span>
+                                        <span class="slds-badge slds-badge_lightest course-badge">
+                                            {course.courseLevel}
+                                        </span>
+                                    </div>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-text-body_small course-duration">
+                                            Duration: {course.courseDuration} hours
+                                        </span>
+                                        <span class="slds-text-body_small course-date">
+                                            Created: {course.formattedCreatedDate}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Pagination Controls -->
+                <template if:true={filteredCourses.length}>
+                    <div class="pagination-container">
+                        <div class="pagination-controls">
+                            <div class="pagination-buttons">
+                                <lightning-button 
+                                    variant="neutral"
+                                    label="Previous"
+                                    icon-name="utility:chevronleft"
+                                    onclick={handlePreviousPage}
+                                    disabled={isPreviousDisabled}>
+                                </lightning-button>
+                                
+                                <lightning-combobox
+                                    name="pageSelect"
+                                    value={currentPage}
+                                    options={pageOptions}
+                                    onchange={handlePageChange}
+                                    class="page-selector">
+                                </lightning-combobox>
+                                
+                                <lightning-button 
+                                    variant="neutral"
+                                    label="Next"
+                                    icon-name="utility:chevronright"
+                                    icon-position="right"
+                                    onclick={handleNextPage}
+                                    disabled={isNextDisabled}>
+                                </lightning-button>
+                            </div>
+                            
+                            <div class="pagination-info">
+                                {pageInfo}
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Empty State -->
+            <template if:false={filteredCourses.length}>
+                <div class="slds-text-align_center slds-p-vertical_large">
+                    <lightning-icon icon-name="standard:knowledge" size="large" class="slds-m-bottom_medium"></lightning-icon>
+                    <h3 class="slds-text-heading_medium slds-m-bottom_small">
+                        <template if:true={searchTerm}>
+                            No courses found matching "{searchTerm}"
+                        </template>
+                        <template if:false={searchTerm}>
+                            No Learning Courses Yet
+                        </template>
+                    </h3>
+                    <p class="slds-text-body_regular slds-m-bottom_medium">
+                        <template if:true={searchTerm}>
+                            Try adjusting your search terms or create a new course.
+                        </template>
+                        <template if:false={searchTerm}>
+                            Create your first learning course to get started.
+                        </template>
+                    </p>
+                    <lightning-button 
+                        label="Create Course" 
+                        variant="brand" 
+                        onclick={handleNewCourse}>
+                    </lightning-button>
+                </div>
+            </template>
+
+            <!-- Error Display -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>Error loading courses: {error.message}</h2>
+                </div>
+            </template>
+        </div>
+
+        <!-- New Course Modal -->
+        <template if:true={showNewCourseModal}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Create New Learning Course</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close" onclick={handleCloseModal}>
+                            <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-content">
+                        <div class="form-field">
+                            <lightning-textarea 
+                                label="Course Description" 
+                                name="Course_Description__c"
+                                value={newCourse.Course_Description__c}
+                                onchange={handleInputChange}
+                                required>
+                            </lightning-textarea>
+                        </div>
+                        
+                        <div class="form-field">
+                            <lightning-input 
+                                label="Course Duration (hours)" 
+                                name="Course_Duration__c"
+                                value={newCourse.Course_Duration__c}
+                                onchange={handleInputChange}
+                                type="number"
+                                step="0.5"
+                                min="0">
+                            </lightning-input>
+                        </div>
+                        
+                        <div class="form-field">
+                            <lightning-combobox 
+                                label="Course Level" 
+                                name="Course_Level__c"
+                                value={newCourse.Course_Level__c}
+                                options={courseLevelOptions}
+                                onchange={handleInputChange}>
+                            </lightning-combobox>
+                        </div>
+                        
+                        <div class="form-field">
+                            <lightning-combobox 
+                                label="Course Status" 
+                                name="Course_Status__c"
+                                value={newCourse.Course_Status__c}
+                                options={courseStatusOptions}
+                                onchange={handleInputChange}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button 
+                            label="Cancel" 
+                            onclick={handleCloseModal}
+                            class="slds-m-right_x-small">
+                        </lightning-button>
+                        <lightning-button 
+                            label="Save Course" 
+                            variant="brand" 
+                            onclick={handleSaveCourse}
+                            disabled={isLoading}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

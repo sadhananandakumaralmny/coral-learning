@@ -1,0 +1,120 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5">
+    <html xmlns="http://www.w3.org/2000/xhtml" lang="en">
+        <head>
+            <meta charset="utf-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <title>Coral Learning - Server Unavailable</title>
+            
+            <!-- Salesforce Lightning Design System -->
+            <apex:slds />
+            
+            <!-- Custom CSS -->
+            <style>
+                body {
+                    font-family: 'Salesforce Sans', Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background: #f8f9fa;
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                .server-down-container {
+                    background: white;
+                    border-radius: 12px;
+                    padding: 3rem;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                    width: 100%;
+                    max-width: 500px;
+                    text-align: center;
+                }
+                
+                .server-down-icon {
+                    font-size: 4rem;
+                    margin-bottom: 1rem;
+                    opacity: 0.7;
+                }
+                
+                .server-down-title {
+                    color: #dc3545;
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    margin-bottom: 1rem;
+                }
+                
+                .server-down-message {
+                    color: #706e6b;
+                    margin-bottom: 2rem;
+                    font-size: 1.1rem;
+                    line-height: 1.5;
+                }
+                
+                .retry-button {
+                    display: inline-block;
+                    padding: 0.75rem 1.5rem;
+                    background: #1589ee;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 6px;
+                    font-weight: 600;
+                    transition: background-color 0.2s ease;
+                }
+                
+                .retry-button:hover {
+                    background: #0d6efd;
+                    text-decoration: none;
+                    color: white;
+                }
+                
+                .help-text {
+                    margin-top: 2rem;
+                    color: #706e6b;
+                    font-size: 0.9rem;
+                }
+                
+                .help-text a {
+                    color: #1589ee;
+                    text-decoration: none;
+                }
+                
+                .help-text a:hover {
+                    text-decoration: underline;
+                }
+                
+                @media (max-width: 480px) {
+                    .server-down-container {
+                        margin: 1rem;
+                        padding: 2rem;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="server-down-container">
+                <div class="server-down-icon">
+                    ⚡
+                </div>
+                
+                <h1 class="server-down-title">
+                    Server Unavailable
+                </h1>
+                
+                <p class="server-down-message">
+                    We're experiencing technical difficulties. Our team is working to resolve the issue. 
+                    Please try again in a few minutes.
+                </p>
+                
+                <a href="javascript:location.reload()" class="retry-button">
+                    Try Again
+                </a>
+                
+                <div class="help-text">
+                    Need help? <a href="#">Contact Support</a>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

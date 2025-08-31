@@ -1,0 +1,264 @@
+<template>
+    <lightning-card title="Corporate Clients - Learning Management System" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <!-- Header with Search and New Client Button -->
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input 
+                        type="search" 
+                        label="Search Clients" 
+                        placeholder="Search by company name..."
+                        value={searchTerm}
+                        onchange={handleSearchChange}
+                        class="search-input">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                    <lightning-button 
+                        label="New Client" 
+                        variant="brand" 
+                        icon-name="utility:add"
+                        onclick={handleNewClient}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Search Results Info -->
+            <template if:true={searchTerm}>
+                <div class="slds-m-bottom_medium">
+                    <div class="slds-text-body_small slds-text-color_weak">
+                        Search results for "{searchTerm}" - {filteredClients.length} clients found
+                    </div>
+                </div>
+            </template>
+
+            <!-- Loading State -->
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center slds-p-vertical_large">
+                    <lightning-spinner alternative-text="Loading clients..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Clients List -->
+            <template if:false={isLoading}>
+                <template if:true={hasClients}>
+                    <div class="slds-grid slds-wrap">
+                        <template for:each={paginatedClients} for:item="client">
+                            <div key={client.Id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_x-small">
+                                <div class="client-card clickable" onclick={handleClientClick} data-client-id={client.Id}>
+                                    <div class="slds-p-around_small">
+                                        <h3 class="slds-text-heading_small slds-m-bottom_x-small client-title">
+                                            {client.Company_Name__c}
+                                        </h3>
+                                        <p class="slds-text-body_small slds-m-bottom_x-small client-description">
+                                            System ID: {client.Name}
+                                        </p>
+                                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small client-meta">
+                                            <span class="slds-badge slds-badge_lightest client-badge">
+                                                {client.Status__c}
+                                            </span>
+                                            <span class="slds-badge slds-badge_lightest client-badge">
+                                                {client.Company_Industry__c}
+                                            </span>
+                                        </div>
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-text-body_small client-size">
+                                                {client.Company_Size__c}
+                                            </span>
+                                            <span class="slds-text-body_small client-revenue">
+                                                {client.Annual_Revenue__c}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <template if:true={filteredClients.length}>
+                        <div class="pagination-container">
+                            <div class="pagination-controls">
+                                <div class="pagination-buttons">
+                                    <lightning-button 
+                                        variant="neutral"
+                                        label="Previous"
+                                        icon-name="utility:chevronleft"
+                                        onclick={handlePreviousPage}
+                                        disabled={isPreviousDisabled}>
+                                    </lightning-button>
+                                    
+                                    <lightning-combobox
+                                        name="pageSelect"
+                                        value={currentPage}
+                                        options={pageOptions}
+                                        onchange={handlePageChange}
+                                        class="page-selector">
+                                    </lightning-combobox>
+                                    
+                                    <lightning-button 
+                                        variant="neutral"
+                                        label="Next"
+                                        icon-name="utility:chevronright"
+                                        icon-position="right"
+                                        onclick={handleNextPage}
+                                        disabled={isNextDisabled}>
+                                    </lightning-button>
+                                </div>
+                                
+                                <div class="pagination-info">
+                                    {pageInfo}
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <!-- Empty State -->
+                <template if:false={hasClients}>
+                    <div class="slds-text-align_center slds-p-vertical_large">
+                        <lightning-icon icon-name="standard:account" size="large" class="slds-m-bottom_medium"></lightning-icon>
+                        <h3 class="slds-text-heading_medium slds-m-bottom_small">
+                            <template if:true={searchTerm}>
+                                No clients found matching "{searchTerm}"
+                            </template>
+                            <template if:false={searchTerm}>
+                                No Corporate Clients Found
+                            </template>
+                        </h3>
+                        <p class="slds-text-body_regular slds-m-bottom_medium">
+                            <template if:true={searchTerm}>
+                                Try adjusting your search terms or create a new client.
+                            </template>
+                            <template if:false={searchTerm}>
+                                No clients were retrieved from the database.
+                            </template>
+                        </p>
+                        <lightning-button 
+                            label="Create Client" 
+                            variant="brand" 
+                            onclick={handleNewClient}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Error Display -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>Error loading clients: {error.message}</h2>
+                </div>
+            </template>
+        </div>
+
+        <!-- New Client Modal -->
+        <template if:true={showNewClientModal}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Create New Corporate Client</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close" onclick={handleCloseModal}>
+                            <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-content">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Company Industry" 
+                                    name="Company_Industry__c"
+                                    value={newClient.Company_Industry__c}
+                                    options={companyIndustryOptions}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Company Size" 
+                                    name="Company_Size__c"
+                                    value={newClient.Company_Size__c}
+                                    options={companySizeOptions}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Annual Revenue" 
+                                    name="Annual_Revenue__c"
+                                    value={newClient.Annual_Revenue__c}
+                                    options={annualRevenueOptions}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Status" 
+                                    name="Status__c"
+                                    value={newClient.Status__c}
+                                    options={statusOptions}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    label="Contact Person" 
+                                    name="Contact_Person__c"
+                                    value={newClient.Contact_Person__c}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    type="email" 
+                                    label="Contact Email" 
+                                    name="Contact_Email__c"
+                                    value={newClient.Contact_Email__c}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    type="tel" 
+                                    label="Contact Phone" 
+                                    name="Contact_Phone__c"
+                                    value={newClient.Contact_Phone__c}
+                                    onchange={handleInputChange}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                                <lightning-input 
+                                    type="date" 
+                                    label="Partnership Start Date" 
+                                    name="Partnership_Start_Date__c"
+                                    value={newClient.Partnership_Start_Date__c}
+                                    onchange={handleInputChange}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button 
+                            label="Cancel" 
+                            onclick={handleCloseModal}
+                            class="slds-m-right_x-small">
+                        </lightning-button>
+                        <lightning-button 
+                            label="Save Client" 
+                            variant="brand" 
+                            onclick={handleSaveClient}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

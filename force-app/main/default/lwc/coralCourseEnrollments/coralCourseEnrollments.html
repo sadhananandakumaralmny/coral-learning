@@ -1,0 +1,302 @@
+<template>
+    <lightning-card title="Course Enrollments - Learning Management System" icon-name="standard:knowledge">
+        <div class="slds-p-around_medium">
+            <!-- Header with Search and New Enrollment Button -->
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input 
+                        type="search" 
+                        label="Search Enrollments" 
+                        placeholder="Search by student name, email, or course..."
+                        value={searchTerm}
+                        onchange={handleSearchChange}
+                        class="search-input">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                    <lightning-button 
+                        label="New Enrollment" 
+                        variant="brand" 
+                        icon-name="utility:add"
+                        onclick={handleNewEnrollment}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- Progress Summary -->
+            <template if:true={hasEnrollments}>
+                <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="progress-summary-card">
+                            <div class="summary-icon">
+                                <lightning-icon icon-name="utility:user" size="small"></lightning-icon>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-number">{totalEnrollments}</div>
+                                <div class="summary-label">Total Enrollments</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="progress-summary-card">
+                            <div class="summary-icon">
+                                <lightning-icon icon-name="utility:clock" size="small"></lightning-icon>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-number">{inProgressCount}</div>
+                                <div class="summary-label">In Progress</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="progress-summary-card">
+                            <div class="summary-icon">
+                                <lightning-icon icon-name="utility:success" size="small"></lightning-icon>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-number">{completedCount}</div>
+                                <div class="summary-label">Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                        <div class="progress-summary-card">
+                            <div class="summary-icon">
+                                <lightning-icon icon-name="utility:chart" size="small"></lightning-icon>
+                            </div>
+                            <div class="summary-content">
+                                <div class="summary-number">{averageProgress}%</div>
+                                <div class="summary-label">Avg Progress</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Search Results Info -->
+            <template if:true={searchResultsInfo}>
+                <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+                    {searchResultsInfo}
+                </div>
+            </template>
+
+            <!-- Loading State -->
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center slds-p-vertical_large">
+                    <lightning-spinner alternative-text="Loading enrollments..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Enrollments List -->
+            <template if:false={isLoading}>
+                <template if:true={hasEnrollments}>
+
+
+                    <div class="slds-table_header">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Student Name">Student Name</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Email">Email</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Course">Course</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Progress">Progress</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Created">Created</div>
+                                    </th>
+                                    <th class="slds-text-title_caps" scope="col">
+                                        <div class="slds-truncate" title="Enrollment ID">Enrollment ID</div>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={paginatedEnrollments} for:item="enrollment">
+                                    <tr key={enrollment.Id} class="slds-hint-parent enrollment-row" onclick={handleEnrollmentClick} data-id={enrollment.Id}>
+                                        <td>
+                                            <div class="slds-truncate" title={enrollment.fullName}>
+                                                <template if:true={enrollment.Student__c}>
+                                                    <a href="#" 
+                                                       class="student-link" 
+                                                       onclick={handleStudentClick} 
+                                                       data-student-id={enrollment.Student__c}
+                                                       title="Click to view student details">
+                                                        <strong>{enrollment.fullName}</strong>
+                                                    </a>
+                                                </template>
+                                                <template if:false={enrollment.Student__c}>
+                                                    <strong>{enrollment.fullName}</strong>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={enrollment.studentEmail}>
+                                                {enrollment.studentEmail}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={enrollment.Course__r.Name}>
+                                                {enrollment.Course__r.Name}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <c-enrollment-progress
+                                                progress-percentage={enrollment.Progress_Percentage__c}>
+                                            </c-enrollment-progress>
+                                        </td>
+                                        <td>
+                                            <div class="slds-text-body_small slds-text-color_weak">
+                                                {enrollment.formattedCreatedDate}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={enrollment.Name}>
+                                                <span class="slds-badge slds-badge_lightest">{enrollment.Name}</span>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    <template if:true={filteredEnrollments.length}>
+                        <div class="pagination-container">
+                            <div class="pagination-controls">
+                                <div class="pagination-buttons">
+                                    <lightning-button 
+                                        variant="neutral"
+                                        label="Previous"
+                                        icon-name="utility:chevronleft"
+                                        onclick={handlePreviousPage}
+                                        disabled={isPreviousDisabled}>
+                                    </lightning-button>
+                                    
+                                    <lightning-combobox
+                                        name="pageSelect"
+                                        value={currentPage}
+                                        options={pageOptions}
+                                        onchange={handlePageChange}
+                                        class="page-selector">
+                                    </lightning-combobox>
+                                    
+                                    <lightning-button 
+                                        variant="neutral"
+                                        label="Next"
+                                        icon-name="utility:chevronright"
+                                        icon-position="right"
+                                        onclick={handleNextPage}
+                                        disabled={isNextDisabled}>
+                                    </lightning-button>
+                                </div>
+                                
+                                <div class="pagination-info">
+                                    {pageInfo}
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <!-- Empty State -->
+                <template if:false={hasEnrollments}>
+                    <div class="slds-text-align_center slds-p-vertical_large">
+                        <lightning-icon icon-name="standard:knowledge" size="large" class="slds-m-bottom_medium"></lightning-icon>
+                        <h3 class="slds-text-heading_medium slds-m-bottom_small">
+                            <template if:true={searchTerm}>
+                                No enrollments found matching "{searchTerm}"
+                            </template>
+                            <template if:false={searchTerm}>
+                                No Course Enrollments Yet
+                            </template>
+                        </h3>
+                        <p class="slds-text-body_regular slds-m-bottom_medium">
+                            <template if:true={searchTerm}>
+                                Try adjusting your search terms or create a new enrollment.
+                            </template>
+                            <template if:false={searchTerm}>
+                                Create your first course enrollment to get started.
+                            </template>
+                        </p>
+                        <lightning-button 
+                            label="Create Enrollment" 
+                            variant="brand" 
+                            onclick={handleNewEnrollment}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Error Display -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>Error loading enrollments: {error.message}</h2>
+                </div>
+            </template>
+        </div>
+
+        <!-- New Enrollment Modal -->
+        <template if:true={showNewEnrollmentModal}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Create New Course Enrollment</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close" onclick={handleCloseModal}>
+                            <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-content">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Student" 
+                                    name="Student__c"
+                                    value={newEnrollment.Student__c}
+                                    options={students}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
+                                <lightning-combobox 
+                                    label="Course" 
+                                    name="Course__c"
+                                    value={newEnrollment.Course__c}
+                                    options={courses}
+                                    onchange={handleInputChange}
+                                    required>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button 
+                            label="Cancel" 
+                            onclick={handleCloseModal}
+                            class="slds-m-right_x-small">
+                        </lightning-button>
+                        <lightning-button 
+                            label="Save Enrollment" 
+                            variant="brand" 
+                            onclick={handleSaveEnrollment}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

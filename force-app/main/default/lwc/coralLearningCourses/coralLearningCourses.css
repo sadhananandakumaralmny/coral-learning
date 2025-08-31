@@ -1,0 +1,135 @@
+.course-card {
+    background: white;
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.course-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    border-color: #0176d3;
+}
+
+.course-card.clickable {
+    cursor: pointer;
+}
+
+.course-card.clickable:hover {
+    background-color: #f8f9fa;
+}
+
+.course-title {
+    color: #16325c;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+.course-description {
+    color: #706e6b;
+    line-height: 1.4;
+    min-height: 3.6em;
+    margin-bottom: 0.75rem;
+}
+
+.course-meta {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.course-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+}
+
+.course-duration {
+    color: #706e6b;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.course-date {
+    color: #706e6b;
+    font-size: 0.875rem;
+}
+
+/* Search styling */
+.search-input {
+    max-width: 400px;
+}
+
+/* Pagination styling */
+.pagination-container {
+    margin-top: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid #dddbda;
+}
+
+.pagination-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.page-selector {
+    min-width: 120px;
+}
+
+.pagination-info {
+    font-size: 0.875rem;
+    color: #706e6b;
+    text-align: center;
+}
+
+/* Modal styling */
+.modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.form-field:last-child {
+    margin-bottom: 0;
+}
+
+/* Status badge colors */
+.course-badge:contains("Active") {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.course-badge:contains("Draft") {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Level badge colors */
+.course-badge:contains("Beginner") {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.course-badge:contains("Intermediate") {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.course-badge:contains("Advanced") {
+    background-color: #f8d7da;
+    color: #721c24;
+}

@@ -1,0 +1,117 @@
+<template>
+    <lightning-card title="AI Insights & Analytics" icon-name="standard:bot">
+        <div class="slds-p-around_medium">
+            <!-- Loading State -->
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center slds-p-vertical_large">
+                    <lightning-spinner alternative-text="Analyzing data..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Platform Overview Cards -->
+            <template if:false={isLoading}>
+                <div class="slds-grid slds-wrap slds-m-bottom_large">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_x-small">
+                        <lightning-card class="metric-card">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="standard:knowledge" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <h2 class="slds-text-heading_large slds-text-color_success">{totalCourses}</h2>
+                                <p class="slds-text-body_regular">Total Courses</p>
+                            </div>
+                        </lightning-card>
+                    </div>
+                    
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_x-small">
+                        <lightning-card class="metric-card">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="standard:account" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <h2 class="slds-text-heading_large slds-text-color_info">{totalClients}</h2>
+                                <p class="slds-text-body_regular">Corporate Clients</p>
+                            </div>
+                        </lightning-card>
+                    </div>
+                    
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_x-small">
+                        <lightning-card class="metric-card">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="standard:user" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <h2 class="slds-text-heading_large slds-text-color_warning">{totalEnrollments}</h2>
+                                <p class="slds-text-body_regular">Active Enrollments</p>
+                            </div>
+                        </lightning-card>
+                    </div>
+                    
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-p-around_x-small">
+                        <lightning-card class="metric-card">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="utility:target" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <h2 class="slds-text-heading_large slds-text-color_success">{averageConfidence}%</h2>
+                                <p class="slds-text-body_regular">AI Confidence</p>
+                            </div>
+                        </lightning-card>
+                    </div>
+                </div>
+
+                <!-- AI Insights Grid -->
+                <template if:true={hasInsights}>
+                    <div class="slds-grid slds-wrap">
+                        <template for:each={insights} for:item="insight">
+                            <div key={insight.id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_x-small">
+                                <lightning-card class="insight-card">
+                                    <div class="slds-p-around_small">
+                                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                                            <div class="slds-grid slds-grid_align-center">
+                                                <lightning-icon icon-name={insight.icon} size="small" class="slds-m-right_x-small"></lightning-icon>
+                                                <h3 class="slds-text-heading_small">{insight.title}</h3>
+                                            </div>
+                                            <span class="slds-badge slds-badge_lightest">
+                                                {insight.type}
+                                            </span>
+                                        </div>
+                                        
+                                        <p class="slds-text-body_regular slds-m-bottom_small">
+                                            {insight.description}
+                                        </p>
+                                        
+                                        <div class="slds-grid slds-grid_align-spread slds-grid_align-center">
+                                            <span class="slds-text-body_small slds-text-color_weak">
+                                                AI Confidence
+                                            </span>
+                                            <span class="slds-text-body_small {getConfidenceColor(insight.confidence)}">
+                                                {insight.confidence}%
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- Confidence Bar -->
+                                        <div class="slds-progress-bar slds-progress-bar_x-small slds-m-top_x-small" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={insight.confidence}>
+                                            <span class="slds-progress-bar__value" style={insight.confidenceBarStyle}>
+                                                <span class="slds-progress-bar__value-text">{insight.confidence}%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </lightning-card>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Empty State -->
+                <template if:false={hasInsights}>
+                    <div class="slds-text-align_center slds-p-vertical_large">
+                        <lightning-icon icon-name="standard:bot" size="large" class="slds-m-bottom_medium"></lightning-icon>
+                        <h3 class="slds-text-heading_medium slds-m-bottom_small">No Insights Available</h3>
+                        <p class="slds-text-body_regular slds-m-bottom_medium">AI is analyzing your learning platform data to generate insights.</p>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Error Display -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>Error loading insights: {error.message}</h2>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

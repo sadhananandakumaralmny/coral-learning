@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insight_Type__c</fullName>
+    <label>Insight Type</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Learner Engagement</fullName>
+                <default>false</default>
+                <label>Learner Engagement</label>
+            </value>
+            <value>
+                <fullName>Client Relationship</fullName>
+                <default>false</default>
+                <label>Client Relationship</label>
+            </value>
+            <value>
+                <fullName>Growth Opportunity</fullName>
+                <default>false</default>
+                <label>Growth Opportunity</label>
+            </value>
+            <value>
+                <fullName>Course Optimization</fullName>
+                <default>false</default>
+                <label>Course Optimization</label>
+            </value>
+            <value>
+                <fullName>Market Trend</fullName>
+                <default>false</default>
+                <label>Market Trend</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

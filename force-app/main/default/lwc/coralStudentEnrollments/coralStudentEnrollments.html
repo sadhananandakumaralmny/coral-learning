@@ -1,0 +1,76 @@
+<template>
+    <lightning-card title="Course Enrollments" icon-name="utility:list">
+        <div class="slds-p-around_medium">
+            <!-- Loading State -->
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center slds-p-vertical_medium">
+                    <lightning-spinner alternative-text="Loading enrollments..." size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Error State -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>Error loading enrollments: {error.body.message}</h2>
+                </div>
+            </template>
+
+            <!-- Enrollments List -->
+            <template if:false={isLoading}>
+                <template if:true={hasEnrollments}>
+                    <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+                        <template if:true={hasMultipleEnrollments}>{enrollmentCount} enrollments</template>
+                        <template if:false={hasMultipleEnrollments}>{enrollmentCount} enrollment</template>
+                    </div>
+                    
+                    <div class="enrollments-list">
+                        <template for:each={enrollments} for:item="enrollment">
+                            <div key={enrollment.Id} class="enrollment-item" onclick={handleEnrollmentClick} data-id={enrollment.Id}>
+                                <div class="slds-grid slds-grid_align-spread slds-p-vertical_x-small">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_xx-small">
+                                            <span class="slds-text-body_small slds-text-color_weak">
+                                                <strong>Course:</strong> 
+                                                <template if:true={enrollment.Course__c}>
+                                                    <a href="#" 
+                                                       class="course-link" 
+                                                       onclick={handleCourseClick} 
+                                                       data-course-id={enrollment.Course__c}
+                                                       title="Click to view course details">
+                                                        {enrollment.Course__r.Name}
+                                                    </a>
+                                                </template>
+                                                <template if:false={enrollment.Course__c}>
+                                                    Unknown Course
+                                                </template>
+                                            </span>
+                                            <span class="slds-text-body_small slds-text-color_weak">
+                                                {enrollment.formattedCreatedDate}
+                                            </span>
+                                        </div>
+                                        
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-text-body_small slds-text-color_weak">
+                                                <strong>Enrollment ID:</strong> {enrollment.Name}
+                                            </span>
+                                            <lightning-icon icon-name="utility:chevronright" size="x-small" class="click-indicator"></lightning-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Empty State -->
+                <template if:false={hasEnrollments}>
+                    <div class="slds-text-align_center slds-p-vertical_medium">
+                        <lightning-icon icon-name="utility:list" size="medium" class="slds-m-bottom_small"></lightning-icon>
+                        <p class="slds-text-body_regular slds-text-color_weak">No course enrollments found for this student.</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

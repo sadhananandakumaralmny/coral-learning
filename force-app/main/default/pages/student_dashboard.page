@@ -1,0 +1,380 @@
+<apex:page controller="StudentPortalController" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5">
+    <html xmlns="http://www.w3.org/2000/xhtml" lang="en">
+        <head>
+            <meta charset="utf-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <title>Coral Learning - Student Dashboard</title>
+            
+            <!-- Salesforce Lightning Design System -->
+            <apex:slds />
+            
+            <!-- Custom CSS -->
+            <style>
+                body {
+                    font-family: 'Salesforce Sans', Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #f8f9fa;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #1589ee 0%, #5cb3ff 100%);
+                    color: white;
+                    padding: 1rem 0;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                
+                .header-content {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 0 1rem;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .logo {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                }
+                
+                .user-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                }
+                
+                .main-content {
+                    max-width: 1200px;
+                    margin: 2rem auto;
+                    padding: 0 1rem;
+                }
+                
+                .welcome-section {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 2rem;
+                    margin-bottom: 2rem;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                
+                .welcome-title {
+                    color: #16325c;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .welcome-subtitle {
+                    color: #706e6b;
+                    font-size: 1.1rem;
+                }
+                
+                .stats-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .stat-card {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    text-align: center;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    transition: transform 0.2s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-2px);
+                }
+                
+                .stat-number {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #1589ee;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .stat-label {
+                    color: #706e6b;
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .enrollments-section {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 2rem;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                
+                .section-title {
+                    color: #16325c;
+                    margin-bottom: 1.5rem;
+                    font-size: 1.5rem;
+                }
+                
+                .enrollment-card {
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin-bottom: 1rem;
+                    transition: all 0.2s ease;
+                }
+                
+                .enrollment-card:hover {
+                    border-color: #1589ee;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+                
+                .enrollment-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 1rem;
+                }
+                
+                .course-title {
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    color: #16325c;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .enrollment-id {
+                    background: #f3f2f2;
+                    color: #706e6b;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                    font-family: monospace;
+                }
+                
+                .enrollment-details {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+                }
+                
+                .detail-item {
+                    display: flex;
+                    flex-direction: column;
+                }
+                
+                .detail-label {
+                    font-size: 0.8rem;
+                    color: #706e6b;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 0.25rem;
+                }
+                
+                .detail-value {
+                    color: #16325c;
+                    font-weight: 500;
+                }
+                
+                .progress-section {
+                    margin-top: 1rem;
+                }
+                
+                .progress-bar {
+                    width: 100%;
+                    height: 8px;
+                    background-color: #e5e5e5;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .progress-fill {
+                    height: 100%;
+                    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+                    border-radius: 4px;
+                    transition: width 0.3s ease;
+                }
+                
+                .progress-text {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 0.9rem;
+                }
+                
+                .progress-percentage {
+                    font-weight: 600;
+                    color: #1589ee;
+                }
+                
+                .progress-status {
+                    color: #706e6b;
+                }
+                
+                .empty-state {
+                    text-align: center;
+                    padding: 3rem;
+                    color: #706e6b;
+                }
+                
+                .empty-icon {
+                    font-size: 3rem;
+                    margin-bottom: 1rem;
+                    opacity: 0.5;
+                }
+                
+                .loading {
+                    text-align: center;
+                    padding: 3rem;
+                    color: #706e6b;
+                }
+                
+                .spinner {
+                    border: 3px solid #f3f3f3;
+                    border-top: 3px solid #1589ee;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    animation: spin 1s linear infinite;
+                    margin: 0 auto 1rem;
+                }
+                
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
+                    
+                    .stats-grid {
+                        grid-template-columns: 1fr;
+                    }
+                    
+                    .enrollment-header {
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
+                    
+                    .enrollment-details {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <!-- Header -->
+            <div class="header">
+                <div class="header-content">
+                    <div class="logo">
+                        🐠 Coral Learning
+                    </div>
+                    <div class="user-info">
+                        <span>Welcome, {!studentName}</span>
+                        <apex:form>
+                            <apex:commandButton value="Logout" action="{!logout}" styleClass="slds-button slds-button_neutral" />
+                        </apex:form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h1 class="welcome-title">Welcome back, {!studentName}!</h1>
+                    <p class="welcome-subtitle">Track your learning progress and manage your course enrollments</p>
+                </div>
+                
+                <!-- Statistics Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">{!totalEnrollments}</div>
+                        <div class="stat-label">Total Enrollments</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{!inProgressCount}</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{!completedCount}</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{!averageProgress}%</div>
+                        <div class="stat-label">Average Progress</div>
+                    </div>
+                </div>
+                
+                <!-- Enrollments Section -->
+                <div class="enrollments-section">
+                    <h2 class="section-title">My Course Enrollments</h2>
+                    
+                    <apex:outputPanel rendered="{!isLoading}">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading your enrollments...</p>
+                        </div>
+                    </apex:outputPanel>
+                    
+                    <apex:outputPanel rendered="{!isLoading == false}">
+                        <apex:outputPanel rendered="{!hasEnrollments}">
+                        <apex:repeat value="{!enrollments}" var="enrollment">
+                            <div class="enrollment-card">
+                                <div class="enrollment-header">
+                                    <div>
+                                        <div class="course-title">Course {!enrollment.Course__c}</div>
+                                        <div class="enrollment-id">{!enrollment.Name}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="enrollment-details">
+                                    <div class="detail-item">
+                                        <div class="detail-label">Enrollment Date</div>
+                                        <div class="detail-value">{!enrollment.Enrollment_Date__c}</div>
+                                    </div>
+                                    <div class="detail-item">
+                                        <div class="detail-label">Status</div>
+                                        <div class="detail-value">{!enrollment.Status__c}</div>
+                                    </div>
+                                                                            <div class="detail-item">
+                                            <div class="detail-label">Created Date</div>
+                                            <div class="detail-value">{!enrollment.CreatedDate}</div>
+                                        </div>
+                                </div>
+                                
+                                <div class="progress-section">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: {!enrollment.Progress_Percentage__c}%"></div>
+                                    </div>
+                                    <div class="progress-text">
+                                        <span class="progress-percentage">{!enrollment.Progress_Percentage__c}% Complete</span>
+                                        <span class="progress-status">
+                                            <apex:outputText value="{!IF(enrollment.Progress_Percentage__c == 100, 'Completed', IF(enrollment.Progress_Percentage__c > 0, 'In Progress', 'Not Started'))}" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:repeat>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                    
+                    <apex:outputPanel rendered="{!isLoading == false}">
+                        <apex:outputPanel rendered="{!hasEnrollments == false}">
+                        <div class="empty-state">
+                            <div class="empty-icon">📚</div>
+                            <h3>No Enrollments Yet</h3>
+                            <p>You haven't enrolled in any courses yet. Contact your administrator to get started.</p>
+                        </div>
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>
