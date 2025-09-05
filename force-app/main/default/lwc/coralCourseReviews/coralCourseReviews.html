@@ -1,0 +1,198 @@
+<template>
+    <lightning-card title="Course Reviews" icon-name="standard:feedback">
+        <div class="slds-p-around_medium">
+            <!-- Review Summary - Hardcoded for Demo -->
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_large review-summary">
+                <div class="slds-col">
+                    <div class="slds-text-heading_medium slds-m-bottom_x-small">
+                        3.5 out of 5
+                    </div>
+                    <div class="slds-text-body_large slds-m-bottom_x-small star-rating">
+                        ★★★☆☆
+                    </div>
+                    <div class="slds-text-body_small slds-text-color_weak">
+                        Based on 3 reviews
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error slds-m-bottom_medium">
+                    <span class="slds-assistive-text">Error</span>
+                    <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small">
+                        <lightning-icon icon-name="utility:error" size="x-small"></lightning-icon>
+                    </span>
+                    {error}
+                </div>
+            </template>
+
+
+            <!-- Reviews List - Hardcoded for Demo -->
+            <div class="reviews-list">
+                <!-- Review 1 -->
+                <div class="slds-box slds-m-bottom_medium review-item">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                        <div class="slds-col">
+                            <div class="slds-text-heading_small slds-m-bottom_x-small">
+                                Sarah Johnson
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak">
+                                September 1, 2025
+                            </div>
+                        </div>
+                        <div class="slds-col slds-text-align_right">
+                            <div class="star-rating slds-text-body_large">
+                                ★★★☆☆
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-text-body_regular review-text">
+                        This course provided a solid foundation in the subject matter. The content was well-structured and the instructor was knowledgeable. However, I felt some sections could have been more detailed, and the practical exercises were somewhat limited. Overall, a good learning experience that met most of my expectations.
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="slds-box slds-m-bottom_medium review-item">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                        <div class="slds-col">
+                            <div class="slds-text-heading_small slds-m-bottom_x-small">
+                                Mike Chen
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak">
+                                August 29, 2025
+                            </div>
+                        </div>
+                        <div class="slds-col slds-text-align_right">
+                            <div class="star-rating slds-text-body_large">
+                                ★★★☆☆
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-text-body_regular review-text">
+                        The course material was comprehensive and the pace was appropriate for my skill level. I appreciated the real-world examples and case studies. The only downside was that some of the advanced topics felt rushed. The instructor was responsive to questions, which helped clarify difficult concepts.
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="slds-box slds-m-bottom_medium review-item">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                        <div class="slds-col">
+                            <div class="slds-text-heading_small slds-m-bottom_x-small">
+                                Emily Davis
+                            </div>
+                            <div class="slds-text-body_small slds-text-color_weak">
+                                August 25, 2025
+                            </div>
+                        </div>
+                        <div class="slds-col slds-text-align_right">
+                            <div class="star-rating slds-text-body_large">
+                                ★★★☆☆
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-text-body_regular review-text">
+                        Good course overall with practical insights. The curriculum covered the essential topics well, and I found the interactive elements engaging. Some modules could benefit from more hands-on practice, but the theoretical foundation was solid. Would recommend to colleagues looking to understand the basics.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Review Modal -->
+        <template if:true={showAddReviewModal}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Add Course Review</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close" onclick={handleCloseModal}>
+                            <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <div class="slds-form slds-form_stacked">
+                            <!-- Student Selection -->
+                            <div class="slds-form-element slds-m-bottom_medium">
+                                <label class="slds-form-element__label" for="student-select">
+                                    Student <span class="slds-required">*</span>
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-combobox
+                                        name="studentId"
+                                        id="student-select"
+                                        placeholder="Select a student"
+                                        options={students}
+                                        value={newReview.studentId}
+                                        onchange={handleStudentChange}>
+                                    </lightning-combobox>
+                                </div>
+                            </div>
+
+                            <!-- Rating -->
+                            <div class="slds-form-element slds-m-bottom_medium">
+                                <label class="slds-form-element__label" for="rating-select">
+                                    Rating <span class="slds-required">*</span>
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-radio-group
+                                        name="rating"
+                                        options={ratingOptions}
+                                        value={newReview.rating}
+                                        onchange={handleInputChange}
+                                        type="button">
+                                    </lightning-radio-group>
+                                </div>
+                            </div>
+
+                            <!-- Review Text -->
+                            <div class="slds-form-element slds-m-bottom_medium">
+                                <label class="slds-form-element__label" for="review-text">
+                                    Review <span class="slds-required">*</span>
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <lightning-textarea
+                                        name="reviewText"
+                                        id="review-text"
+                                        placeholder="Share your thoughts about this course..."
+                                        value={newReview.reviewText}
+                                        onchange={handleInputChange}
+                                        max-length="32768">
+                                    </lightning-textarea>
+                                </div>
+                            </div>
+
+                            <!-- Existing Review Warning -->
+                            <template if:true={hasExistingReview}>
+                                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning slds-m-bottom_medium">
+                                    <span class="slds-assistive-text">Warning</span>
+                                    <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small">
+                                        <lightning-icon icon-name="utility:warning" size="x-small"></lightning-icon>
+                                    </span>
+                                    This student has already reviewed this course.
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="neutral" onclick={handleCloseModal}>
+                            Cancel
+                        </lightning-button>
+                        <lightning-button 
+                            variant="brand" 
+                            onclick={handleSaveReview}
+                            disabled={isLoading}>
+                            <template if:true={isLoading}>
+                                <lightning-spinner size="small" alternative-text="Saving..."></lightning-spinner>
+                                Saving...
+                            </template>
+                            <template if:false={isLoading}>
+                                Save Review
+                            </template>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </lightning-card>
+</template>

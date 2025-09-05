@@ -1,0 +1,11 @@
+Course_Description__c,Course_Duration__c,Course_Level__c,Course_Status__c
+"Master the fundamentals of machine learning algorithms and statistical modeling",8.0,Beginner,Active
+"Advanced deep learning concepts including neural networks and backpropagation",12.0,Advanced,Active
+"Natural language processing techniques for text analysis and sentiment analysis",6.0,Intermediate,Active
+"Computer vision skills for image recognition and object detection",10.0,Advanced,Active
+"Data science methodologies including data cleaning and exploratory analysis",7.0,Intermediate,Active
+"AI ethics and responsible AI development practices",5.0,Intermediate,Active
+"Predictive modeling techniques for business forecasting",8.0,Intermediate,Active
+"Reinforcement learning algorithms for autonomous decision-making",9.0,Advanced,Active
+"AI applications in business and real-world problem solving",6.5,Intermediate,Active
+"Building intelligent chatbot systems using AI and NLP",8.5,Advanced,Active

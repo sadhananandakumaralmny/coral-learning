@@ -1,0 +1,87 @@
+.review-summary {
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    border: 1px solid #e5e5e5;
+}
+
+.star-rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+}
+
+.reviews-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.review-item {
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.review-item:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-text {
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.slds-modal__container {
+    max-width: 600px;
+}
+
+.slds-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.slds-radio-group .slds-radio_button {
+    margin-bottom: 0;
+}
+
+.slds-radio-group .slds-radio_button__label {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    background-color: #ffffff;
+    color: #16325c;
+    transition: all 0.2s ease;
+}
+
+.slds-radio-group .slds-radio_button__label:hover {
+    background-color: #f4f6f9;
+    border-color: #0070d2;
+}
+
+.slds-radio-group .slds-radio_button [type="radio"]:checked + .slds-radio_button__label {
+    background-color: #0070d2;
+    color: #ffffff;
+    border-color: #0070d2;
+}
+
+.slds-radio-group .slds-radio_button [type="radio"]:checked + .slds-radio_button__label:hover {
+    background-color: #005fb2;
+    border-color: #005fb2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .review-summary {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .review-summary .slds-col:last-child {
+        margin-top: 1rem;
+    }
+    
+    .slds-radio-group {
+        flex-direction: column;
+    }
+}
