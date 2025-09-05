@@ -1,0 +1,11 @@
+First_Name__c,Last_Name__c,Email__c,Phone__c,Department__c,Job_Title__c,Status__c
+John,Smith,john.smith@techcorp.com,555-0101,Engineering,Software Engineer,Active
+Sarah,Johnson,sarah.johnson@globaltech.com,555-0102,Data Science,Data Scientist,Active
+Mike,Chen,mike.chen@innovatelabs.com,555-0103,AI Research,AI Researcher,Active
+Emily,Davis,emily.davis@datadriven.com,555-0104,Analytics,Analytics Manager,Active
+David,Wilson,david.wilson@cloudfirst.com,555-0105,Cloud Engineering,Cloud Architect,Active
+Lisa,Brown,lisa.brown@aisolutions.com,555-0106,Machine Learning,ML Engineer,Active
+Tom,Garcia,tom.garcia@futuretech.com,555-0107,Product,Product Manager,Active
+Anna,Martinez,anna.martinez@smartlearning.com,555-0108,Education,Learning Specialist,Active
+Chris,Anderson,chris.anderson@digitaldynamics.com,555-0109,DevOps,DevOps Engineer,Active
+Rachel,Taylor,rachel.taylor@nextgen.com,555-0110,Research,Research Scientist,Active
