@@ -1,0 +1,20 @@
+<template>
+    <lightning-card title="Course Reviews">
+        <template if:true={reviews}>
+            <ul>
+                <template for:each={reviews} for:item="review">
+                    <li key={review.Id}>
+                        <p>Rating: {review.Rating__c}</p>
+                        <p>Review: {review.Review__c}</p>
+                    </li>
+                </template>
+            </ul>
+        </template>
+        <template if:false={reviews}>
+            <p>No reviews yet.</p>
+        </template>
+        <lightning-input label="Rating" value={rating} type="number" min="1" max="5"></lightning-input>
+        <lightning-textarea label="Review" value={reviewText}></lightning-textarea>
+        <lightning-button label="Submit Review" onclick={handleSubmit}></lightning-button>
+    </lightning-card>
+</template>
