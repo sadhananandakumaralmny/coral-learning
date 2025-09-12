@@ -14,8 +14,8 @@
 .student-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
-    border-color: #1589ee;
-    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+    border-color: #DBA338;
+    background: linear-gradient(135deg, #ffffff 0%, #F6F2F2 100%);
     cursor: pointer;
 }
 
@@ -31,7 +31,7 @@
     bottom: 0.5rem;
     right: 0.5rem;
     font-size: 0.7rem;
-    color: #1589ee;
+    color: #DBA338;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     pointer-events: none;
@@ -63,7 +63,7 @@
     position: absolute;
     right: 1rem;
     font-size: 0.7rem;
-    color: #1589ee;
+    color: #DBA338;
     font-weight: 500;
 }
 
@@ -75,10 +75,10 @@
 }
 
 .slds-table th {
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #1589ee;
+    background-color: #C7DDEC;
+    border-bottom: 2px solid #DBA338;
     font-weight: 600;
-    color: #16325c;
+    color: #143B58;
 }
 
 .slds-table td {
@@ -112,7 +112,7 @@
 
 .pagination-info {
     font-size: 0.875rem;
-    color: #706e6b;
+    color: #143B58;
     text-align: center;
 }
 
@@ -129,8 +129,8 @@
 
 /* Badge Styling */
 .slds-badge_lightest {
-    background-color: #eef1f6;
-    color: #1589ee;
+    background-color: #C7DDEC;
+    color: #143B58;
     font-weight: 500;
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -139,7 +139,7 @@
 
 /* Click Indicator */
 .click-indicator {
-    color: #1589ee;
+    color: #DBA338;
     transition: transform 0.2s ease-in-out;
 }
 
@@ -224,14 +224,14 @@
 
 .slds-input:hover,
 .slds-combobox:hover {
-    border-color: #1589ee;
+    border-color: #DBA338;
 }
 
 /* Focus States */
 .slds-input:focus,
 .slds-combobox:focus {
-    border-color: #1589ee;
-    box-shadow: 0 0 0 1px #1589ee;
+    border-color: #DBA338;
+    box-shadow: 0 0 0 1px #DBA338;
 }
 
 /* Animation for Card Loading */
@@ -262,6 +262,6 @@
 }
 
 .slds-badge[title="Graduated"] {
-    background-color: #1589ee;
+    background-color: #DBA338;
     color: white;
 }

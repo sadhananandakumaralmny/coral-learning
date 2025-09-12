@@ -91,8 +91,14 @@ export default class CoralCorporateClients extends NavigationMixin(LightningElem
     }
 
     getSimulatedSize(clientName) {
-        const sizes = ['Small (10-99 employees)', 'Medium (100-999 employees)', 'Large (1000+ employees)', 'Enterprise (10000+ employees)'];
+        const sizes = [
+    { label: 'Small (10-99 employees)', value: 'Small (10-99 employees)' },
+    { label: 'Medium (100-999 employees)', value: 'Medium (100-999 employees)' },
+    { label: 'Large (1000+ employees)', value: 'Large (1000+ employees)' },
+    { label: 'Enterprise (10000+ employees)', value: 'Enterprise (10000+ employees)' }
+];
         const index = clientName ? clientName.length % sizes.length : 0;
+return sizes[index].value;
         return sizes[index];
     }
 

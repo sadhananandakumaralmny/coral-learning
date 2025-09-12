@@ -11,7 +11,7 @@
 .client-card:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transform: translateY(-4px);
-    border-color: #0176d3;
+    border-color: #DBA338;
 }
 
 .client-card.clickable {
@@ -19,18 +19,18 @@
 }
 
 .client-card.clickable:hover {
-    background-color: #f8f9fa;
+    background-color: #F6F2F2;
 }
 
 .client-title {
-    color: #16325c;
+    color: #143B58;
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 0.5rem;
 }
 
 .client-description {
-    color: #706e6b;
+    color: #143B58;
     line-height: 1.4;
     margin-bottom: 0.75rem;
 }
@@ -47,13 +47,13 @@
 }
 
 .client-size {
-    color: #706e6b;
+    color: #143B58;
     font-size: 0.875rem;
     font-weight: 500;
 }
 
 .client-revenue {
-    color: #706e6b;
+    color: #143B58;
     font-size: 0.875rem;
 }
 
@@ -88,7 +88,7 @@
 
 .pagination-info {
     font-size: 0.875rem;
-    color: #706e6b;
+    color: #143B58;
     text-align: center;
 }
 

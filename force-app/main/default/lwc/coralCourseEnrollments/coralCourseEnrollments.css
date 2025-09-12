@@ -16,7 +16,7 @@
 .enrollment-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
-    border-color: #1589ee;
+    border-color: #DBA338;
     cursor: pointer;
 }
 
@@ -32,7 +32,7 @@
     bottom: 0.5rem;
     right: 0.5rem;
     font-size: 0.7rem;
-    color: #1589ee;
+    color: #DBA338;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     pointer-events: none;
@@ -44,7 +44,7 @@
 
 /* Card content styling */
 .enrollment-card h3 {
-    color: #16325c;
+    color: #143B58;
     font-weight: 600;
     margin: 0;
 }
@@ -114,7 +114,7 @@
 .progress-summary-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border-color: #1589ee;
+    border-color: #DBA338;
 }
 
 .progress-summary-card .summary-icon {
@@ -122,13 +122,13 @@
 }
 
 .progress-summary-card .summary-icon lightning-icon {
-    --sds-c-icon-color-foreground-default: #1589ee;
+    --sds-c-icon-color-foreground-default: #DBA338;
 }
 
 .progress-summary-card .summary-number {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #16325c;
+    color: #143B58;
     margin-bottom: 0.25rem;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .slds-progress-bar__value {
-    background-color: #1589ee;
+    background-color: #DBA338;
     border-radius: 0.25rem;
     height: 100%;
     transition: width 0.3s ease;
@@ -234,7 +234,7 @@
 }
 
 .enrollment-card .slds-grid:first-child {
-    border-bottom: 2px solid #1589ee;
+    border-bottom: 2px solid #DBA338;
     padding-bottom: 0.75rem;
 }
 
@@ -259,7 +259,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #1589ee, #5cb3ff);
+    background: linear-gradient(90deg, #DBA338, #BA8B2D);
 }
 
 /* Improve text readability */
@@ -272,7 +272,7 @@
 
 /* Make the enrollment ID more prominent */
 .enrollment-card .slds-grid:last-child .slds-text-body_small {
-    color: #1589ee;
+    color: #DBA338;
     font-weight: 500;
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -301,7 +301,7 @@
     position: absolute;
     right: 1rem;
     font-size: 0.7rem;
-    color: #1589ee;
+    color: #DBA338;
     font-weight: 500;
 }
 
@@ -313,10 +313,10 @@
 }
 
 .slds-table th {
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #1589ee;
+    background-color: #C7DDEC;
+    border-bottom: 2px solid #DBA338;
     font-weight: 600;
-    color: #16325c;
+    color: #143B58;
 }
 
 .slds-table td {
@@ -326,8 +326,8 @@
 
 /* Badge styling for enrollment ID in list view */
 .slds-badge_lightest {
-    background-color: #eef1f6;
-    color: #1589ee;
+    background-color: #C7DDEC;
+    color: #143B58;
     font-weight: 500;
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -341,7 +341,7 @@
 }
 
 .enrollment-card:hover .click-indicator {
-    color: #1589ee;
+    color: #DBA338;
     transform: translateX(2px);
 }
 
@@ -356,18 +356,18 @@
 
 /* Student Link Styling */
 .student-link {
-    color: #0176d3;
+    color: #DBA338;
     text-decoration: none;
     cursor: pointer;
     transition: color 0.2s ease;
 }
 
 .student-link:hover {
-    color: #014486;
+    color: #BA8B2D;
     text-decoration: underline;
 }
 
 .student-link:focus {
-    outline: 2px solid #0176d3;
+    outline: 2px solid #DBA338;
     outline-offset: 2px;
 }
